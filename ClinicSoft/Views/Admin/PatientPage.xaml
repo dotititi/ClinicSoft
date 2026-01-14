@@ -1,0 +1,50 @@
+﻿<Page x:Class="ClinicSoft.Views.Admin.PatientPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Пациенты">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Панель действий -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+            <Button Content="Добавить пациента" 
+                    Height="36" 
+                    Padding="12,0"
+                    Click="BtnAddPatient_Click"/>
+            <TextBox x:Name="SearchBox" 
+                     Width="250" 
+                     Height="36" 
+                     Margin="16,0,0,0"
+                     Padding="8,0"
+                     TextChanged="SearchBox_TextChanged"/>
+        </StackPanel>
+
+        <!-- Список пациентов -->
+        <DataGrid x:Name="PatientDataGrid"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  SelectionChanged="PatientDataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО" 
+                                    Binding="{Binding FullName}" 
+                                    Width="250"/>
+                <DataGridTextColumn Header="Дата рожд." 
+                                    Binding="{Binding Birthday, StringFormat=d}" 
+                                    Width="100"/>
+                <DataGridTextColumn Header="Телефон" 
+                                    Binding="{Binding Phone}" 
+                                    Width="120"/>
+                <DataGridTextColumn Header="Полис" 
+                                    Binding="{Binding MedicalCard.InsuranceNumber}" 
+                                    Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

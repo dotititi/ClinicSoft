@@ -1,0 +1,46 @@
+﻿<Page x:Class="ClinicSoft.Views.Admin.ReferencePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Справочники">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+            <Button Content="Добавить врача" 
+                    Height="36" 
+                    Click="BtnAddDoctor_Click" 
+                    Margin="0,0,8,0"/>
+            <Button Content="Добавить отделение" 
+                    Height="36" 
+                    Click="BtnAddDepartment_Click" 
+                    Margin="0,0,8,0"/>
+            <Button Content="Специальности" 
+                    Height="36" 
+                    Click="BtnSpecialities_Click"/>
+        </StackPanel>
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="Врачи">
+                <DataGrid x:Name="DoctorGrid" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="250"/>
+                        <DataGridTextColumn Header="Специальность" Binding="{Binding Speciality.Name}" Width="200"/>
+                        <DataGridTextColumn Header="Отделение" Binding="{Binding Department.Name}" Width="200"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Отделения">
+                <DataGrid x:Name="DepartmentGrid" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="300"/>
+                        <DataGridTextColumn Header="Заведующий" Binding="{Binding HeadDoctorFullName}" Width="250"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

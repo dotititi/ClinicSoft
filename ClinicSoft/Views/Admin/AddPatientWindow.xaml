@@ -1,0 +1,35 @@
+﻿<Window x:Class="ClinicSoft.Views.Admin.AddPatientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Новый пациент" Height="600" Width="500"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <ScrollViewer>
+        <StackPanel Margin="24">
+            <TextBlock Text="Личные данные" FontSize="18" Margin="0,0,0,16"/>
+
+            <TextBox x:Name="TxtLastName" Height="36" Margin="0,0,0,8" Tag="Фамилия"/>
+            <TextBox x:Name="TxtFirstName" Height="36" Margin="0,0,0,8" Tag="Имя"/>
+            <TextBox x:Name="TxtMiddleName" Height="36" Margin="0,0,0,8" Tag="Отчество"/>
+            <DatePicker x:Name="DpBirthday" Height="36" Margin="0,0,0,8" SelectedDateChanged="DpBirthday_SelectedDateChanged"/>
+            <ComboBox x:Name="CbGender" Height="36" Margin="0,0,0,8">
+                <ComboBoxItem Content="Мужской" Tag="M"/>
+                <ComboBoxItem Content="Женский" Tag="F"/>
+            </ComboBox>
+            <TextBox x:Name="TxtPhone" Height="36" Margin="0,0,0,8" Tag="Телефон"/>
+            <TextBox x:Name="TxtEmail" Height="36" Margin="0,0,0,16" Tag="Email"/>
+
+            <TextBlock Text="Медицинская карта" FontSize="18" Margin="0,0,0,16"/>
+
+            <TextBox x:Name="TxtInsurance" Height="36" Margin="0,0,0,8" Tag="Номер полиса"/>
+            <TextBox x:Name="TxtAllergies" Height="60" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,8" Tag="Аллергии"/>
+            <TextBox x:Name="TxtChronic" Height="60" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,16" Tag="Хронические заболевания"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Отмена" Width="100" Height="36" Click="BtnCancel_Click"/>
+                <Button Content="Сохранить" Width="100" Height="36" Margin="8,0,0,0" Click="BtnSave_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

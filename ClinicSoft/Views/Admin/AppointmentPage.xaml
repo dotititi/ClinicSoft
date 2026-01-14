@@ -1,0 +1,74 @@
+﻿<Page x:Class="ClinicSoft.Views.Admin.AppointmentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Записи на приём">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Форма записи -->
+        <Border Background="#F8F9FA" CornerRadius="8" Padding="16" Margin="0,0,0,24">
+            <StackPanel MaxWidth="450">
+                <TextBlock Text="Новая запись" 
+                           FontSize="18" FontWeight="Bold" 
+                           Margin="0,0,0,16"/>
+
+                <!-- Поиск пациента -->
+                <TextBlock Text="Пациент" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <ComboBox x:Name="CbPatient" 
+                          Height="36" 
+                          DisplayMemberPath="FullName"
+                          IsEditable="True"
+                          TextSearch.Text="FullName"/>
+
+                <!-- Выбор врача -->
+                <TextBlock Text="Врач" FontWeight="SemiBold" Margin="0,12,0,4"/>
+                <ComboBox x:Name="CbDoctor" 
+                          Height="36" 
+                          DisplayMemberPath="FullName"/>
+
+                <!-- Дата и время -->
+                <TextBlock Text="Дата приёма" FontWeight="SemiBold" Margin="0,12,0,4"/>
+                <DatePicker x:Name="DpDate" Height="36" SelectedDateChanged="DpDate_SelectedDateChanged"/>
+
+                <TextBlock Text="Время" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                <ComboBox x:Name="CbTime" Height="36"/>
+
+                <!-- Причина -->
+                <TextBlock Text="Причина обращения" FontWeight="SemiBold" Margin="0,12,0,4"/>
+                <TextBox x:Name="TxtReason" Height="60" TextWrapping="Wrap" AcceptsReturn="True"/>
+
+                <!-- Кнопка -->
+                <Button Content="Записать" 
+                        Height="36" 
+                        Margin="0,16,0,0"
+                        Click="BtnCreateAppointment_Click"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Список записей -->
+        <DataGrid x:Name="AppointmentDataGrid"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата и время" 
+                                    Binding="{Binding ScheduledTime, StringFormat=g}" 
+                                    Width="150"/>
+                <DataGridTextColumn Header="Пациент" 
+                                    Binding="{Binding Patient.FullName}" 
+                                    Width="200"/>
+                <DataGridTextColumn Header="Врач" 
+                                    Binding="{Binding Doctor.FullName}" 
+                                    Width="200"/>
+                <DataGridTextColumn Header="Статус" 
+                                    Binding="{Binding Status}" 
+                                    Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
