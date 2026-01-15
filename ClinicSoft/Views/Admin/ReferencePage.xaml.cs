@@ -1,18 +1,8 @@
 ﻿using ClinicSoft.Data;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ClinicSoft.Views.Admin
 {
@@ -31,30 +21,40 @@ namespace ClinicSoft.Views.Admin
 
         private void LoadData()
         {
-            // Врачи
+            // Врачи: формируем отображаемое имя на лету
             var doctors = _context.Doctors
                 .Include(d => d.Speciality)
                 .Include(d => d.Department)
+                .Select(d => new
+                {
+                    Id = d.Id,
+                    FullName = $"{d.LastName} {d.FirstName} {d.MiddleName}".Trim(),
+                    Speciality = d.Speciality != null ? d.Speciality.Name : "Не указано",
+                    Department = d.Department != null ? d.Department.Name : "Не указано"
+                })
                 .ToList();
-            foreach (var d in doctors) d.FullName = $"{d.LastName} {d.FirstName} {d.MiddleName}";
+
             DoctorGrid.ItemsSource = doctors;
 
-            // Отделения
+            // Отделения: формируем ФИО заведующего
             var departments = _context.Departments
                 .Include(d => d.HeadDoctor)
                     .ThenInclude(h => h.User)
+                .Select(d => new
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    HeadDoctorFullName = d.HeadDoctor != null
+                        ? $"{d.HeadDoctor.LastName} {d.HeadDoctor.FirstName} {d.HeadDoctor.MiddleName}".Trim()
+                        : "Не назначен"
+                })
                 .ToList();
-            foreach (var d in departments)
-            {
-                if (d.HeadDoctor != null)
-                    d.HeadDoctorFullName = $"{d.HeadDoctor.LastName} {d.HeadDoctor.FirstName} {d.HeadDoctor.MiddleName}";
-            }
+
             DepartmentGrid.ItemsSource = departments;
         }
 
         private void BtnAddDoctor_Click(object sender, RoutedEventArgs e)
         {
-            // Можно открыть отдельное окно AddDoctorWindow (по аналогии с пациентом)
             MessageBox.Show("Функция добавления врача — в разработке.");
         }
 
@@ -65,10 +65,9 @@ namespace ClinicSoft.Views.Admin
 
         private void BtnSpecialities_Click(object sender, RoutedEventArgs e)
         {
-            // Открыть список специальностей
             var specWindow = new SpecialityWindow();
             specWindow.ShowDialog();
-            LoadData(); // Обновить данные
+            LoadData();
         }
     }
 }

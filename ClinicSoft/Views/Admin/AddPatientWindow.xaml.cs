@@ -51,7 +51,7 @@ namespace ClinicSoft.Views.Admin
             context.SaveChanges();
 
             // 2. Создаём пациента
-            var patient = new Patient
+            var patient = new ClinicSoft.Models.Patient
             {
                 UserId = user.Id,
                 LastName = TxtLastName.Text,

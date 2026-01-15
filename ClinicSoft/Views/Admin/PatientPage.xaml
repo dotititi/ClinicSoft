@@ -32,9 +32,15 @@
                   SelectionMode="Single"
                   SelectionChanged="PatientDataGrid_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ФИО" 
-                                    Binding="{Binding FullName}" 
-                                    Width="250"/>
+                <DataGridTextColumn Header="ФИО" Width="250">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0} {1} {2}">
+                            <Binding Path="LastName"/>
+                            <Binding Path="FirstName"/>
+                            <Binding Path="MiddleName"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Дата рожд." 
                                     Binding="{Binding Birthday, StringFormat=d}" 
                                     Width="100"/>

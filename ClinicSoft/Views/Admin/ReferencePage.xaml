@@ -28,8 +28,8 @@
                 <DataGrid x:Name="DoctorGrid" AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="250"/>
-                        <DataGridTextColumn Header="Специальность" Binding="{Binding Speciality.Name}" Width="200"/>
-                        <DataGridTextColumn Header="Отделение" Binding="{Binding Department.Name}" Width="200"/>
+                        <DataGridTextColumn Header="Специальность" Binding="{Binding Speciality}" Width="200"/>
+                        <DataGridTextColumn Header="Отделение" Binding="{Binding Department}" Width="200"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>

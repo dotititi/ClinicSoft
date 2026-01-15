@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using ClinicSoft.Data;        // Убедись, что путь к DbContext правильный
+using ClinicSoft.Models;
+using static BCrypt.Net.BCrypt;            // Для хеширования паролей
 
 namespace ClinicSoft
 {
@@ -49,8 +41,6 @@ namespace ClinicSoft
             PasswordBox.Clear();
             LoginPlaceholder.Visibility = Visibility.Visible;
             PasswordPlaceholder.Visibility = Visibility.Visible;
-
-            // Снимаем фокус, чтобы placeholder'ы отображались корректно
             this.Focus();
         }
 
@@ -73,13 +63,89 @@ namespace ClinicSoft
 
             if (_isLoginMode)
             {
-                // TODO: реализовать вход через EF Core
-                ErrorMessage.Text = "Функция входа — заглушка.";
+                // === ВХОД ===
+                User? user = null;
+                try
+                {
+                    using (var context = new ClinicSoftContext())
+                    {
+                        user = context.Users.FirstOrDefault(u => u.Login == login);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessage.Text = $"Ошибка подключения к БД: {ex.Message}";
+                    return;
+                }
+
+                if (user == null || !Verify(password, user.PasswordHash))
+                {
+                    ErrorMessage.Text = "Неверный логин или пароль.";
+                    return;
+                }
+
+                // === ПЕРЕХОД В ЗАВИСИМОСТИ ОТ РОЛИ ===
+                switch (user.Role)
+                {
+                    case "admin":
+                        new Views.Admin.AdminWindow().Show();
+                        break;
+
+                    case "registrator":
+                        new Views.Registrator.RegistratorWindow().Show();
+                        break;
+
+                    case "doctor":
+                        new Views.Doctor.DoctorWindow().Show();
+                        break;
+
+                   /* case "nurse":
+                        new Views.Nurse.NurseWindow().Show();
+                        break;*/
+
+                    case "patient":
+                        new Views.Patient.PatientWindow().Show();
+                        break;
+
+                    default:
+                        ErrorMessage.Text = "Неизвестная роль пользователя.";
+                        return;
+                }
+
+                this.Close(); // закрываем окно авторизации
             }
             else
             {
-                // TODO: реализовать регистрацию
-                ErrorMessage.Text = "Функция регистрации — заглушка.";
+                // === РЕГИСТРАЦИЯ (только как пациент) ===
+                try
+                {
+                    using (var context = new ClinicSoftContext())
+                    {
+                        if (context.Users.Any(u => u.Login == login))
+                        {
+                            ErrorMessage.Text = "Пользователь с таким логином уже существует.";
+                            return;
+                        }
+
+                        var newUser = new User
+                        {
+                            Login = login,
+                            PasswordHash = HashPassword(password),
+                            Role = "patient" // саморегистрация → только пациент
+                        };
+
+                        context.Users.Add(newUser);
+                        context.SaveChanges();
+
+                        ErrorMessage.Text = "Аккаунт создан! Теперь войдите.";
+                        _isLoginMode = true;
+                        UpdateMode();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessage.Text = $"Ошибка регистрации: {ex.Message}";
+                }
             }
         }
 

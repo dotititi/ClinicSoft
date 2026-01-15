@@ -1,29 +1,16 @@
 ﻿using ClinicSoft.Data;
 using ClinicSoft.Models;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore; // ← ключевая строка!
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ClinicSoft.Views.Admin
 {
-    /// <summary>
-    /// Логика взаимодействия для PatientPage.xaml
-    /// </summary>
     public partial class PatientPage : Page
     {
         private ClinicSoftContext _context = new();
-        private Patient _selectedPatient;
+        private global::ClinicSoft.Models.Patient _selectedPatient;
 
         public PatientPage()
         {
@@ -42,15 +29,10 @@ namespace ClinicSoft.Views.Admin
                 query = query.Where(p =>
                     p.FirstName.Contains(searchTerm) ||
                     p.LastName.Contains(searchTerm) ||
-                    p.MiddleName.Contains(searchTerm));
+                    (p.MiddleName != null && p.MiddleName.Contains(searchTerm)));
             }
 
-            var patients = query.ToList();
-            // Добавляем вычисляемое поле FullName
-            foreach (var p in patients)
-                p.FullName = $"{p.LastName} {p.FirstName} {p.MiddleName}";
-
-            PatientDataGrid.ItemsSource = patients;
+            PatientDataGrid.ItemsSource = query.ToList();
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -60,8 +42,7 @@ namespace ClinicSoft.Views.Admin
 
         private void PatientDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedPatient = PatientDataGrid.SelectedItem as Patient;
-            // Можно открыть детали или разрешить редактирование
+            _selectedPatient = PatientDataGrid.SelectedItem as ClinicSoft.Models.Patient;
         }
 
         private void BtnAddPatient_Click(object sender, RoutedEventArgs e)
@@ -69,7 +50,7 @@ namespace ClinicSoft.Views.Admin
             var addWindow = new AddPatientWindow();
             if (addWindow.ShowDialog() == true)
             {
-                LoadPatients(); // Обновить список
+                LoadPatients();
             }
         }
     }
