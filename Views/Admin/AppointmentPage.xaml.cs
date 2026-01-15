@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicSoft.Views.Admin
 {
@@ -32,33 +33,42 @@ namespace ClinicSoft.Views.Admin
 
         private void LoadData()
         {
-            // Загружаем пациентов
-            var patients = _context.Patients.ToList();
-            foreach (var p in patients) p.FullName = $"{p.LastName} {p.FirstName} {p.MiddleName}";
-            CbPatient.ItemsSource = patients;
-
-            // Загружаем врачей
-            var doctors = _context.Doctors
-                .Include(d => d.User)
+            // Пациенты
+            var patients = _context.Patients
+                .Select(p => new
+                {
+                    Id = p.Id,
+                    Display = $"{p.LastName} {p.FirstName} {p.MiddleName}".Trim()
+                })
                 .ToList();
-            foreach (var d in doctors) d.FullName = $"{d.LastName} {d.FirstName} {d.MiddleName}";
-            CbDoctor.ItemsSource = doctors;
+            CbPatient.ItemsSource = patients;
+            CbPatient.DisplayMemberPath = "Display";
+            CbPatient.SelectedValuePath = "Id";
 
-            // Загружаем записи на сегодня и ближайшие дни
+            // Врачи
+            var doctors = _context.Doctors
+                .Select(d => new
+                {
+                    Id = d.Id,
+                    Display = $"{d.LastName} {d.FirstName} {d.MiddleName}".Trim()
+                })
+                .ToList();
+            CbDoctor.ItemsSource = doctors;
+            CbDoctor.DisplayMemberPath = "Display";
+            CbDoctor.SelectedValuePath = "Id";
+
+            // Записи
             var appointments = _context.Appointments
-                .Include(a => a.Patient)
-                    .ThenInclude(p => p.User)
-                .Include(a => a.Doctor)
-                    .ThenInclude(d => d.User)
                 .Where(a => a.ScheduledTime >= DateTime.Today)
                 .OrderBy(a => a.ScheduledTime)
+                .Select(a => new
+                {
+                    a.ScheduledTime,
+                    PatientName = $"{a.Patient.LastName} {a.Patient.FirstName} {a.Patient.MiddleName}".Trim(),
+                    DoctorName = $"{a.Doctor.LastName} {a.Doctor.FirstName} {a.Doctor.MiddleName}".Trim(),
+                    a.Status
+                })
                 .ToList();
-
-            foreach (var a in appointments)
-            {
-                a.Patient.FullName = $"{a.Patient.LastName} {a.Patient.FirstName} {a.Patient.MiddleName}";
-                a.Doctor.FullName = $"{a.Doctor.LastName} {a.Doctor.FirstName} {a.Doctor.MiddleName}";
-            }
 
             AppointmentDataGrid.ItemsSource = appointments;
         }
@@ -88,8 +98,8 @@ namespace ClinicSoft.Views.Admin
                 return;
             }
 
-            var patient = (Patient)CbPatient.SelectedItem;
-            var doctor = (Doctor)CbDoctor.SelectedItem;
+            var patient = (global::ClinicSoft.Models.Patient)CbPatient.SelectedItem;
+            var doctor = (global::ClinicSoft.Models.Doctor)CbDoctor.SelectedItem;
             var timeStr = (string)CbTime.SelectedItem;
             var dateTime = DpDate.SelectedDate.Value.Date + TimeSpan.Parse(timeStr);
 
