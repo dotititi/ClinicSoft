@@ -1,0 +1,224 @@
+﻿<Window x:Class="ClinicSoft.Views.Admin.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ClinicSoft — Администрирование" 
+        MinWidth="800"
+        MinHeight="600"
+        Width="1200" Height="700"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F7FA"
+        FontFamily="Segoe UI" FontSize="14"
+        ResizeMode="CanResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1">
+            <Grid Margin="24,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="ClinicSoft" 
+                           FontSize="20" FontWeight="Bold" 
+                           Foreground="#1976D2" 
+                           VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" 
+                           Text="Администрирование" 
+                           FontSize="16" 
+                           Foreground="#616161"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+                <ToggleButton x:Name="UserMenuButton"
+                              Grid.Column="2"
+                              Content="▼"
+                              Width="32" Height="32"
+                              Background="Transparent"
+                              Foreground="#1976D2"
+                              BorderThickness="0"
+                              Padding="0"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Right"/>
+                <Popup x:Name="UserMenuPopup"
+                       PlacementTarget="{Binding ElementName=UserMenuButton}"
+                       Placement="Bottom"
+                       StaysOpen="False"
+                       AllowsTransparency="True">
+                    <Border Background="White"
+                            BorderBrush="#B0BEC5"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Margin="0,2,0,0">
+                        <StackPanel>
+                            <Button Content="Настройки профиля"
+                                    Click="BtnProfileSettings_Click"
+                                    HorizontalAlignment="Stretch"
+                                    Padding="16,8"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Foreground="#212121"
+                                    HorizontalContentAlignment="Left"/>
+                            <Button Content="Сменить пароль"
+                                    Click="BtnChangePassword_Click"
+                                    HorizontalAlignment="Stretch"
+                                    Padding="16,8"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Foreground="#212121"
+                                    HorizontalContentAlignment="Left"/>
+                            <Button Content="Выйти"
+                                    Click="BtnLogout_Click"
+                                    HorizontalAlignment="Stretch"
+                                    Padding="16,8"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Foreground="#212121"
+                                    HorizontalContentAlignment="Left"/>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+            </Grid>
+        </Border>
+        <Grid Grid.Row="1" Margin="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="240" MaxWidth="320" Width="280"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" 
+                    Background="White" 
+                    CornerRadius="12">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="16">
+                        <TextBlock Text="Навигация" 
+                                   FontSize="14" FontWeight="SemiBold" 
+                                   Foreground="#616161" 
+                                   Margin="0,0,0,12"/>
+                        <Button Content="Главная" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnDashboard_Click"/>
+                        <Button Content="Пациенты" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnPatients_Click"/>
+                        <Button Content="Врачи" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnDoctors_Click"/>
+                        <Button Content="Регистраторы" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnRegistrators_Click"/>
+                        <Button Content="Администраторы" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnAdmins_Click"/>
+                        <Button Content="Пользователи" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,24" 
+                                Padding="16,8"
+                                Click="BtnUsers_Click"/>
+                        <TextBlock Text="Справочники" 
+                                   FontSize="14" FontWeight="SemiBold" 
+                                   Foreground="#616161" 
+                                   Margin="0,0,0,12"/>
+                        <Button Content="Отделения" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnDepartments_Click"/>
+                        <Button Content="Специальности" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnSpecialities_Click"/>
+                        <Button Content="Кабинеты" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnOffices_Click"/>
+                        <Button Content="Статусы врачей" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,24" 
+                                Padding="16,8"
+                                Click="BtnDoctorStatuses_Click"/>
+                        <TextBlock Text="Лекарства" 
+                                   FontSize="14" FontWeight="SemiBold" 
+                                   Foreground="#616161" 
+                                   Margin="0,0,0,12"/>
+                        <Button Content="Формы дозировки" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnDosageForms_Click"/>
+                        <Button Content="Препараты" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,24" 
+                                Padding="16,8"
+                                Click="BtnMedications_Click"/>
+                        <TextBlock Text="Лаборатория" 
+                                   FontSize="14" FontWeight="SemiBold" 
+                                   Foreground="#616161" 
+                                   Margin="0,0,0,12"/>
+                        <Button Content="Типы анализов" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnLabTestTypes_Click"/>
+                        <Button Content="Единицы измерения" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,24" 
+                                Padding="16,8"
+                                Click="BtnUnits_Click"/>
+                        <TextBlock Text="Документы" 
+                                   FontSize="14" FontWeight="SemiBold" 
+                                   Foreground="#616161" 
+                                   Margin="0,0,0,12"/>
+                        <Button Content="Типы документов" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnDocumentTypes_Click"/>
+                        <Button Content="Шаблоны документов" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,24" 
+                                Padding="16,8"
+                                Click="BtnDocumentsTemplate_Click"/>
+                        <TextBlock Text="Медицинские справочники" 
+                                   FontSize="14" FontWeight="SemiBold" 
+                                   Foreground="#616161" 
+                                   Margin="0,0,0,12"/>
+                        <Button Content="Пол" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnGenders_Click"/>
+                        <Button Content="Диагнозы" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnDiagnoses_Click"/>
+                        <Button Content="Расписание врачей" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,8" 
+                                Padding="16,8"
+                                Click="BtnDoctorSchedules_Click"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+            <Border Grid.Column="1" 
+                    Background="White" 
+                    Margin="16,0,0,0"
+                    CornerRadius="12">
+                <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

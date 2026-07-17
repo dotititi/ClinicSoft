@@ -1,0 +1,87 @@
+﻿<Page x:Class="ClinicSoft.Views.Registrator.AppointmentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Записи на приём">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Новая запись" 
+                       FontSize="24" FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Foreground="#1976D2"
+                       Margin="0,0,0,24"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="360" MaxWidth="520"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="24">
+                    <StackPanel>
+                        <TextBlock Text="Пациент *" Foreground="#212121" Margin="0,0,0,8"/>
+                        <ComboBox x:Name="CbPatient"
+                                  MinHeight="36"
+                                  IsEditable="True"
+                                  Padding="8,4"
+                                  Margin="0,0,0,16"/>
+                        <TextBlock Text="Врач *" Foreground="#212121" Margin="0,12,0,8"/>
+                        <ComboBox x:Name="CbDoctor"
+                                  MinHeight="36"
+                                  Padding="8,4"
+                                  SelectionChanged="CbDoctor_SelectionChanged"
+                                  Margin="0,0,0,4"/>
+                        <TextBlock x:Name="OfficeInfo"
+                                   FontSize="13"
+                                   Foreground="#212121"
+                                   FontStyle="Italic"
+                                   Margin="0,0,0,4"
+                                   Visibility="Collapsed"/>
+                        <TextBlock Text="Дата приёма *" Foreground="#212121" Margin="0,12,0,8"/>
+                        <DatePicker x:Name="DpDate"
+                                    MinHeight="36"
+                                    SelectedDateChanged="DpDate_SelectedDateChanged"
+                                    Padding="8,4"
+                                    Margin="0,0,0,12"/>
+                        <TextBlock x:Name="DateErrorHint"
+                                   Foreground="#F44336"
+                                   FontSize="12"
+                                   Margin="0,-4,0,12"
+                                   Visibility="Collapsed">
+                            Запись на выходные дни недоступна
+                        </TextBlock>
+                        <TextBlock Text="Время *" Foreground="#212121" Margin="0,12,0,8"/>
+                        <ComboBox x:Name="CbTime"
+                                  MinHeight="36"
+                                  Padding="8,4"
+                                  IsEnabled="False"
+                                  Margin="0,0,0,16"/>
+                        <TextBlock x:Name="TimeHint"
+                                   FontSize="11"
+                                   Foreground="#757575"
+                                   Text="Выберите врача и дату, чтобы увидеть доступное время"
+                                   Margin="0,-4,0,16"/>
+                        <TextBlock Text="Причина обращения *" Foreground="#212121" Margin="0,16,0,8"/>
+                        <TextBox x:Name="TxtReason"
+                                 MinHeight="80"
+                                 MaxHeight="120"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Padding="8,6"
+                                 Margin="0,0,0,20"/>
+                        <Button Content="Записать"
+                                MinHeight="44"
+                                Padding="20,12"
+                                Click="BtnCreateAppointment_Click"
+                                HorizontalAlignment="Stretch"
+                                Background="#1976D2"
+                                Foreground="White"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Page>

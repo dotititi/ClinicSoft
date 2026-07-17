@@ -1,0 +1,197 @@
+﻿<Page x:Class="ClinicSoft.Views.DoctorViews.EncounterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Приём пациента">
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock x:Name="PatientHeader" 
+                               FontSize="20" FontWeight="Bold"
+                               Foreground="#1976D2"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                        <TextBlock x:Name="AppointmentTimeText" Foreground="#616161" FontStyle="Italic"/>
+                        <TextBlock Text=" • " Foreground="#616161"/>
+                        <TextBlock Text="Причина:" FontWeight="SemiBold" Foreground="#616161"/>
+                        <TextBlock x:Name="ReasonText" Foreground="#616161"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <TabControl Grid.Row="1" Padding="0,8,0,0">
+                <TabItem Header="Анамнез">
+                    <ScrollViewer>
+                        <StackPanel Margin="0,16">
+                            <TextBlock Text="Общая информация" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Возраст:" FontWeight="Bold" Foreground="#212121"/>
+                                    <TextBlock x:Name="AgeText" Margin="0,0,0,12"/>
+                                    <TextBlock Text="Пол:" FontWeight="Bold" Foreground="#212121"/>
+                                    <TextBlock x:Name="GenderText" Margin="0,0,0,12"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Полис:" FontWeight="Bold" Foreground="#212121"/>
+                                    <TextBlock x:Name="InsuranceText" Margin="0,0,0,12"/>
+                                    <TextBlock Text="Телефон:" FontWeight="Bold" Foreground="#212121"/>
+                                    <TextBlock x:Name="PhoneText" Margin="0,0,0,12"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock Text="Аллергии и хронические болезни" FontWeight="SemiBold" Margin="0,24,0,12"/>
+                            <Border Background="#F8F9FA" CornerRadius="4" Padding="12">
+                                <TextBlock x:Name="MedicalHistoryText" TextWrapping="Wrap" Foreground="#212121"/>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Диагнозы">
+                    <ScrollViewer>
+                        <StackPanel Margin="0,16">
+                            <TextBlock Text="Жалобы пациента: *" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <TextBox x:Name="ComplaintsBox" MinHeight="80" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,24"/>
+                            <TextBlock Text="Диагноз: *" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <ComboBox x:Name="CbDiagnosis" 
+                                      MinHeight="36" 
+                                      IsEditable="True"
+                                      SelectionChanged="CbDiagnosis_SelectionChanged"
+                                      LostFocus="CbDiagnosis_LostFocus"
+                                      Margin="0,0,0,16"/>
+                            <StackPanel x:Name="SelectedDiagnosisPanel" Visibility="Collapsed" Margin="0,0,0,16">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="DiagnosisDisplayText" VerticalAlignment="Center"/>
+                                    <Button Content="Очистить"
+                                            Click="BtnClearDiagnosis_Click"
+                                            MinHeight="24" Margin="12,0,0,0"
+                                            Background="White"
+                                            BorderBrush="#F44336"
+                                            Foreground="#F44336"
+                                            x:Name="BtnClearDiagnosis"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Назначения">
+                    <ScrollViewer>
+                        <StackPanel Margin="0,16">
+                            <TextBlock Text="Лекарства" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                            <ComboBox x:Name="CbMedication" 
+                                      MinHeight="36" 
+                                      IsEditable="True"
+                                      SelectionChanged="CbMedication_SelectionChanged"
+                                      LostFocus="CbMedication_LostFocus"
+                                      Margin="0,0,0,16"/>
+                            <ListView x:Name="MedicationsListView" MinHeight="120" MaxHeight="240" Margin="0,0,0,24">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" MinWidth="130" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Dosage}" MinWidth="80" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Duration}" MinWidth="60" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Instructions}" 
+                                                       MinWidth="160" 
+                                                       Margin="0,0,8,0" 
+                                                       VerticalAlignment="Center"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       ToolTip="{Binding FullInstructions}"/>
+                                            <StackPanel Orientation="Horizontal" 
+                                                        Visibility="{Binding CanEdit, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <Button Content="✎" 
+                                                        Tag="{Binding MedicationId}"
+                                                        Click="EditMedication_Click"
+                                                        Foreground="#1976D2" 
+                                                        Background="Transparent" 
+                                                        BorderThickness="0"
+                                                        FontSize="14" 
+                                                        Width="24" 
+                                                        Height="24" 
+                                                        Padding="0"
+                                                        VerticalContentAlignment="Center"
+                                                        HorizontalContentAlignment="Center"
+                                                        Cursor="Hand"
+                                                        ToolTip="Редактировать"/>
+                                                <Button Content="✕" 
+                                                        Tag="{Binding MedicationId}"
+                                                        Click="RemoveMedication_Click"
+                                                        Foreground="Red" 
+                                                        Background="Transparent" 
+                                                        BorderThickness="0"
+                                                        FontSize="16" 
+                                                        Width="24" 
+                                                        Height="24" 
+                                                        Padding="0"
+                                                        VerticalContentAlignment="Center"
+                                                        HorizontalContentAlignment="Center"
+                                                        Cursor="Hand"
+                                                        ToolTip="Удалить"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <TextBlock Text="Анализы" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                            <ComboBox x:Name="CbLabTest" 
+                                      MinHeight="36" 
+                                      IsEditable="True"
+                                      SelectionChanged="CbLabTest_SelectionChanged"
+                                      LostFocus="CbLabTest_LostFocus"
+                                      Margin="0,0,0,16"/>
+                            <ListBox x:Name="SelectedLabTestsList" MinHeight="80" MaxHeight="160">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                            <Button Content="✕" 
+                                                    Tag="{Binding Id}"
+                                                    Click="RemoveLabTest_Click"
+                                                    Foreground="Red" 
+                                                    Background="Transparent" 
+                                                    BorderThickness="0"
+                                                    FontSize="16" 
+                                                    Width="24" 
+                                                    Height="24" 
+                                                    Padding="0"
+                                                    VerticalContentAlignment="Center"
+                                                    HorizontalContentAlignment="Center"
+                                                    Cursor="Hand"
+                                                    Visibility="{Binding CanEdit, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <TextBlock Text="План лечения:" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <TextBox x:Name="TreatmentPlanBox" MinHeight="80" TextWrapping="Wrap" AcceptsReturn="True"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,24,0,0">
+                <Button Content="Отменить" 
+                        Name="BtnCancel"
+                        MinHeight="36" MinWidth="100"
+                        Padding="12,8"
+                        Click="BtnCancel_Click"
+                        Background="White"
+                        BorderBrush="#1976D2"
+                        Foreground="#1976D2"/>
+                <Button x:Name="BtnSave" 
+                        Content="Сохранить и завершить" 
+                        MinHeight="36" MinWidth="180"
+                        Margin="12,0,0,0"
+                        Padding="12,8"
+                        Click="BtnSave_Click"/>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,62 @@
+﻿<Window x:Class="ClinicSoft.Views.Admin.AddWindow.AdminAddLabTestTypeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавить тип анализа" 
+        Height="400" Width="480"
+        MinWidth="350" MinHeight="400"
+        MaxWidth="550" MaxHeight="400"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F7FA"
+        SizeToContent="Height">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Добавить тип анализа" 
+                   FontSize="20" 
+                   FontWeight="Bold" 
+                   Foreground="#1976D2"
+                   Grid.Row="0"
+                   Margin="0,0,0,24"/>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,0,0,24">
+                <TextBlock Text="Название *" 
+                           Foreground="#212121"
+                           Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtName" 
+                         MinHeight="36" 
+                         Padding="8,0"/>
+                <TextBlock Text="Норма *" 
+                           Foreground="#212121"
+                           Margin="0,12,0,4"/>
+                <TextBox x:Name="TxtNormalRange" 
+                         MinHeight="36" 
+                         Padding="8,0"/>
+                <TextBlock Text="Единица измерения *" 
+                           Foreground="#212121"
+                           Margin="0,12,0,4"/>
+                <ComboBox x:Name="CbUnit" 
+                          MinHeight="36" 
+                          DisplayMemberPath="Symbol"
+                          SelectedValuePath="Id"/>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Right"
+                    Grid.Row="2">
+            <Button Content="Отмена" 
+                    MinWidth="90" MinHeight="32" 
+                    Padding="12,6"
+                    Click="BtnCancel_Click"/>
+            <Button Content="Добавить" 
+                    MinWidth="110" MinHeight="32" 
+                    Margin="12,0,0,0" 
+                    Padding="12,6"
+                    Click="BtnSave_Click"
+                    Background="#1976D2"
+                    Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Window>

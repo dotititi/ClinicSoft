@@ -1,0 +1,79 @@
+﻿<Page x:Class="ClinicSoft.Views.PatientViews.BookAppointmentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Запись на приём">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Запись на приём" 
+                       FontSize="24" FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Foreground="#1976D2"
+                       Margin="0,0,0,16"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="360" MaxWidth="520"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="24">
+                    <StackPanel>
+                        <TextBlock Text="Выберите врача *" Margin="0,0,0,8" Foreground="#212121"/>
+                        <ComboBox x:Name="CbDoctor"
+                                  MinHeight="36"
+                                  Padding="8,4"
+                                  DisplayMemberPath="Display"
+                                  SelectionChanged="CbDoctor_SelectionChanged"/>
+                        <TextBlock x:Name="OfficeInfo"
+                                   FontSize="13"
+                                   Foreground="#212121"
+                                   FontStyle="Italic"
+                                   Margin="0,2,0,0"
+                                   Visibility="Collapsed"/>
+                        <TextBlock Text="Дата приёма *" Margin="0,12,0,8" Foreground="#212121"/>
+                        <DatePicker x:Name="DpDate"
+                                    MinHeight="36"
+                                    SelectedDateChanged="DpDate_SelectedDateChanged"/>
+                        <TextBlock x:Name="DateErrorHint"
+                                   Foreground="#F44336"
+                                   FontSize="12"
+                                   Margin="0,4,0,12"
+                                   Visibility="Collapsed">
+                            Запись на выходные дни недоступна
+                        </TextBlock>
+                        <TextBlock Text="Время *" Margin="0,12,0,8" Foreground="#212121"/>
+                        <ComboBox x:Name="CbTime"
+                                  MinHeight="36"
+                                  Padding="8,4"
+                                  IsEnabled="False"/>
+                        <TextBlock x:Name="TimeHint"
+                                   FontSize="11"
+                                   Foreground="#757575"
+                                   Margin="0,4,0,16"
+                                   Text="Выберите врача и дату, чтобы увидеть доступное время"/>
+                        <TextBlock Text="Причина обращения *" Margin="0,16,0,8" Foreground="#212121"/>
+                        <TextBox x:Name="TxtReason"
+                                 MinHeight="80"
+                                 MaxHeight="120"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Padding="8,6"/>
+                        <Button x:Name="BtnBook"
+                                Content="Записаться"
+                                MinHeight="44"
+                                Margin="0,24,0,0"
+                                Click="BtnBook_Click"
+                                Background="#1976D2"
+                                Foreground="White"
+                                Padding="20,12"
+                                HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Page>

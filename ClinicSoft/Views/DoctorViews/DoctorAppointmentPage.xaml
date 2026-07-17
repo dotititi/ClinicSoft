@@ -1,0 +1,121 @@
+﻿<Page x:Class="ClinicSoft.Views.DoctorViews.DoctorAppointmentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:System="clr-namespace:System;assembly=mscorlib"
+      Title="Мои записи">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Мои записи" 
+                   FontSize="24" FontWeight="Bold"
+                   Foreground="#1976D2"
+                   Margin="0,0,0,16"/>
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <DatePicker x:Name="StartDatePicker" MinWidth="120" SelectedDateChanged="FilterChanged"/>
+                <TextBlock Text=" — " VerticalAlignment="Center" Margin="8,0"/>
+                <DatePicker x:Name="EndDatePicker" MinWidth="120" SelectedDateChanged="FilterChanged"/>
+            </StackPanel>
+            <Border Grid.Column="1"
+                    Background="White"
+                    BorderBrush="#BDBDBD"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    MinHeight="36"
+                    Margin="24,0,0,0">
+                <Grid>
+                    <TextBox x:Name="SearchBox"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             VerticalContentAlignment="Center"
+                             Padding="8,0,8,0"
+                             TextChanged="SearchBox_TextChanged"
+                             Foreground="#212121"
+                             VerticalAlignment="Stretch"/>
+                    <TextBlock x:Name="SearchPlaceholder"
+                               Text="Поиск по ФИО"
+                               Foreground="#9E9E9E"
+                               VerticalAlignment="Center"
+                               Margin="8,0,8,0"
+                               TextTrimming="CharacterEllipsis"
+                               IsHitTestVisible="False"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <DataGrid x:Name="AppointmentsGrid"
+                  Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  SelectionMode="Single"
+                  RowHeight="60"
+                  VerticalScrollBarVisibility="Auto">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{Binding RowBackground}"/>
+                    <Setter Property="Foreground" Value="{Binding RowForeground}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsRowEnabled}"/>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Height" Value="36"/>
+                    <Setter Property="Padding" Value="12,4"/>
+                    <Setter Property="Background" Value="#1976D2"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата" Binding="{Binding ScheduledTime, StringFormat='dd.MM.yyyy'}" Width="110" MinWidth="70"/>
+                <DataGridTextColumn Header="Время" Binding="{Binding ScheduledTime, StringFormat='HH:mm'}" Width="60" MinWidth="60"/>
+                <DataGridTextColumn Header="Пациент" Binding="{Binding PatientName}" Width="*" MinWidth="190"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding StatusDisplay}" Width="130" MinWidth="130"/>
+                <DataGridTemplateColumn Header="Причина" Width="*" MinWidth="110">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Reason}"
+                                       TextWrapping="Wrap"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="8,4"
+                                       VerticalAlignment="Center"
+                                       ToolTip="{Binding Reason}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Действия" Width="130" MinWidth="130">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Button Content="Открыть" 
+                                        Tag="{Binding Id}" 
+                                        Click="BtnOpen_Click"
+                                        Padding="8,2"
+                                        Background="Transparent"
+                                        Foreground="#1976D2"
+                                        Cursor="Hand"
+                                        Visibility="{Binding OpenButtonVisibility}"/>
+                                <Button Content="Отменить" 
+                                        Tag="{Binding Id}" 
+                                        Click="BtnCancel_Click"
+                                        Padding="8,2"
+                                        Background="Transparent"
+                                        Foreground="#F44336"
+                                        Visibility="{Binding CancelButtonVisibility}"
+                                        Cursor="Hand"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

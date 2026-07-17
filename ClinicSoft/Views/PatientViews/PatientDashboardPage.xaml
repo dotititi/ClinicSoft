@@ -1,0 +1,22 @@
+﻿<Page x:Class="ClinicSoft.Views.PatientViews.PatientDashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Главная">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Добро пожаловать!" 
+                   FontSize="24" FontWeight="Bold"
+                   Foreground="#1976D2"
+                   Margin="0,0,0,24"
+                   HorizontalAlignment="Left"/>
+        <TextBlock x:Name="WelcomeMessage" 
+                   FontSize="16"
+                   TextWrapping="Wrap"
+                   Grid.Row="1"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"/>
+    </Grid>
+</Page>

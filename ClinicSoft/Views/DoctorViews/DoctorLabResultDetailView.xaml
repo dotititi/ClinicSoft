@@ -1,0 +1,76 @@
+﻿<Page x:Class="ClinicSoft.Views.DoctorViews.DoctorLabResultDetailView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:System="clr-namespace:System;assembly=mscorlib"
+      Title="Результат анализа">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
+            <Button x:Name="BtnBack" 
+                    Content="Назад" 
+                    Padding="12,8"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Foreground="#1976D2"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Cursor="Hand"
+                    Click="BtnBack_Click"
+                    Margin="0,0,16,0"/>
+            <TextBlock Text="Результат анализа" 
+                       FontSize="20" FontWeight="Bold"
+                       Foreground="#1976D2"
+                       VerticalAlignment="Center"/>
+        </StackPanel>
+        <Button x:Name="BtnSavePdf"
+                Grid.Row="1"
+                Content="Сохранить PDF"
+                HorizontalAlignment="Left"
+                Margin="0,12,0,16"
+                Padding="16,8"
+                MinWidth="140"
+                Background="#1976D2"
+                Foreground="White"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Cursor="Hand"
+                Click="BtnSavePdf_Click"/>
+        <DataGrid x:Name="ResultsGrid"
+                  Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  RowHeight="60">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Height" Value="36"/>
+                    <Setter Property="Padding" Value="8,4"/>
+                    <Setter Property="Background" Value="#1976D2"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Анализ" Width="*" MinWidth="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TestName}"
+                                       TextWrapping="Wrap"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="8,4"
+                                       VerticalAlignment="Center"
+                                       ToolTip="{Binding TestName}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Результат" Binding="{Binding ResultValue}" Width="150"/>
+                <DataGridTextColumn Header="Единица" Binding="{Binding UnitSymbol}" Width="100" MinWidth="70"/>
+                <DataGridTextColumn Header="Норма" Binding="{Binding NormalRange}" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

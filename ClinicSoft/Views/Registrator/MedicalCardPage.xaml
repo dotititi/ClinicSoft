@@ -1,0 +1,63 @@
+﻿<Page x:Class="ClinicSoft.Views.Registrator.MedicalCardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Медицинская карта">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,16">
+            <Button x:Name="BtnBack" 
+                    Content="Назад" 
+                    Padding="12,8"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Foreground="#1976D2"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Cursor="Hand"
+                    Click="BtnBack_Click"
+                    Margin="0,0,16,0"/>
+            <TextBlock x:Name="PatientHeader" 
+                       FontSize="20" FontWeight="Bold"
+                       Foreground="#1976D2"
+                       VerticalAlignment="Center"
+                       TextWrapping="Wrap"
+                       TextTrimming="CharacterEllipsis"/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <GroupBox Header="Персональные данные" Margin="0,0,0,16">
+                    <Grid Margin="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="200" Width="*"/>
+                            <ColumnDefinition MinWidth="200" Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Margin="0,0,0,4"><Run FontWeight="Bold">Дата рождения:</Run> <Run x:Name="BirthdayText"/></TextBlock>
+                            <TextBlock Margin="0,0,0,4"><Run FontWeight="Bold">Пол:</Run> <Run x:Name="GenderText"/></TextBlock>
+                            <TextBlock Margin="0,0,0,4"><Run FontWeight="Bold">Телефон:</Run> <Run x:Name="PhoneText"/></TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Margin="0,0,0,4"><Run FontWeight="Bold">Email:</Run> <Run x:Name="EmailText"/></TextBlock>
+                            <TextBlock Margin="0,0,0,4"><Run FontWeight="Bold">Полис ОМС:</Run> <Run x:Name="InsuranceText"/></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Аллергии" Margin="0,0,0,16">
+                    <TextBlock x:Name="AllergiesText" 
+                               TextWrapping="Wrap" 
+                               Padding="8"
+                               Foreground="#212121"/>
+                </GroupBox>
+                <GroupBox Header="Хронические заболевания" Margin="0,0,0,16">
+                    <TextBlock x:Name="ChronicConditionsText" 
+                               TextWrapping="Wrap" 
+                               Padding="8"
+                               Foreground="#212121"/>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
